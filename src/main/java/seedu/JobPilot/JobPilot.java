@@ -36,6 +36,46 @@ public class JobPilot {
     }
 
     /**
+     * Updates the status and note of an existing application.
+     *
+     * @param applications The list containing job applications.
+     * @param input The raw user command string.
+     */
+    private static void updateStatus(ArrayList<Add> applications, String input) {
+        try {
+            // Format: status INDEX set/STATUS note/NOTE
+            int setIndex = input.indexOf("set/");
+            int noteIndex = input.indexOf("note/");
+
+            if (setIndex == -1 || noteIndex == -1) {
+                System.out.println("Invalid format! Use: status INDEX set/STATUS note/NOTE");
+                return;
+            }
+
+            // Extract the index (between 'status ' and ' set/')
+            String indexStr = input.substring("status ".length(), setIndex).trim();
+            int listIndex = Integer.parseInt(indexStr) - 1;
+
+            if (listIndex < 0 || listIndex >= applications.size()) {
+                System.out.println("Invalid index! Application not found.");
+                return;
+            }
+
+            String newStatus = input.substring(setIndex + 4, noteIndex).trim().toUpperCase();
+            String note = input.substring(noteIndex + 5).trim();
+
+            // Update the application
+            Add app = applications.get(listIndex);
+            app.setStatus(newStatus + " (Note: " + note + ")");
+
+            System.out.println("Updated Status: " + app);
+        } catch (Exception e) {
+            System.out.println("Error parsing status command. Ensure index is a number.");
+        }
+    }
+
+
+    /**
      * Main entry-point for the java.JobPilot.JobPilot application.
      */
     public static void main(String[] args) {
@@ -48,7 +88,7 @@ public class JobPilot {
         System.out.println("Hello from\n" + logo);
 
         System.out.println("Welcome to JobPilot!");
-        System.out.println("Commands: add | list | sort | delete | bye");
+        System.out.println("Commands: add | list | sort | status | delete | bye");
         System.out.println("Format: add c/COMPANY p/POSITION d/DATE");
         System.out.println("Example: add c/Google p/Software Engineer Intern d/2024-09-12");
 
@@ -93,6 +133,8 @@ public class JobPilot {
                 listApplications(applications);
             } else if (input.equals("sort")) {
                 sortApplications(applications);
+            } else if (input.startsWith("status ")) {
+                updateStatus(applications, input);
             } else if (input.startsWith("delete")) {
                 try {
                     deleteApplication(input, applications);
@@ -100,7 +142,7 @@ public class JobPilot {
                     System.out.println(e.getMessage());
                 }
             } else {
-                System.out.println("Unknown command. Use: add or list or sort or delete or bye");
+                System.out.println("Unknown command. Use: add or list or sort or status or delete or bye");
             }
         }
 
