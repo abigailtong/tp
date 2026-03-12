@@ -1,4 +1,4 @@
-package task; // Matches src/main/java/seedu/duke/task
+package task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
