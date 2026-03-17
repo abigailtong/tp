@@ -154,6 +154,8 @@ public class JobPilot {
      * @param args Command line arguments.
      */
     public static void main(String[] args) {
+        LOGGER.setLevel(Level.OFF);
+
         String logo = """
                  _   ___   ____   ____   ___  _       ___   _____
                 | | / _ \\ | __ ) |  _ \\ |_ _|| |     / _ \\ |_   _|
