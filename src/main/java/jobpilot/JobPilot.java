@@ -73,11 +73,11 @@ public class JobPilot {
 
         System.out.println("Here are your applications:");
         int index = 0;
-        for (Add app : applications) {
-            if (app == null) {
+        for (Add application : applications) {
+            if (application == null) {
                 System.out.println((index + 1) + ". [Invalid application data]");
             } else {
-                System.out.println((index + 1) + ". " + app);
+                System.out.println((index + 1) + ". " + application);
             }
             index++;
         }
@@ -158,6 +158,77 @@ public class JobPilot {
     }
 
     /**
+     * Deletes an application from the list.
+     *
+     * @param input        The full user command.
+     * @param applications The list storing all job applications.
+     * @throws JobPilotException If the index provided is invalid.
+     */
+    private static void deleteApplication(String input, ArrayList<Add> applications) throws JobPilotException {
+        try {
+            Delete.deleteApplication(input, applications);
+        } catch (NumberFormatException e) {
+            throw new JobPilotException("Invalid format! Use: delete INDEX");
+        }
+    }
+
+    /**
+     * Searches applications by company name (case-insensitive, partial match).
+     *
+     * @param applications The list of job applications to search.
+     * @param input        The raw user command string.
+     */
+    public static void searchByCompany(ArrayList<Add> applications, String input) {
+        assert applications != null : "Applications list should not be null";
+        assert input != null : "Input command string should not be null";
+        assert input.startsWith("search ") : "Input must start with 'search ' prefix";
+
+        LOGGER.log(Level.INFO, "Attempting to search with input: " + input);
+
+        try {
+            String searchTerm = input.substring("search ".length()).trim();
+
+            if (searchTerm.isEmpty()) {
+                LOGGER.log(Level.WARNING, "Empty search term provided");
+                System.out.println("Please provide a company name to search. Example: search google");
+                return;
+            }
+            if (applications.isEmpty()) {
+                System.out.println("No applications to search!");
+                return;
+            }
+
+            ArrayList<Add> results = new ArrayList<>();
+            for (Add application : applications) {
+                assert application != null : "Application in list should not be null";
+                String company = application.getCompany();
+                assert company != null : "Company name should not be null";
+                if (company.toLowerCase().contains(searchTerm.toLowerCase())) {
+                    results.add(application);
+                }
+            }
+
+            LOGGER.log(Level.INFO, "Search found " + results.size() + " result(s) for term: " + searchTerm);
+
+            if (results.isEmpty()) {
+                System.out.println("No applications found for company: " + searchTerm);
+            } else {
+                System.out.println("Found " + results.size() + " application(s) matching '" + searchTerm + "':");
+                for (int i = 0; i < results.size(); i++) {
+                    System.out.println((i + 1) + ". " + results.get(i));
+                }
+            }
+
+        } catch (StringIndexOutOfBoundsException e) {
+            LOGGER.log(Level.SEVERE, "Error parsing search command: " + input, e);
+            System.out.println("Invalid search format! Use: search COMPANY_NAME");
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Unexpected error during search", e);
+            System.out.println("An error occurred while searching.");
+        }
+    }
+
+    /**
      * Main entry-point for the application.
      *
      * @param args Command line arguments.
@@ -175,7 +246,7 @@ public class JobPilot {
 
         System.out.println("Hello from\n" + logo);
         System.out.println("Welcome to JobPilot!");
-        System.out.println("Commands: add | list | sort | status | delete | bye");
+        System.out.println("Commands: add | list | search | sort | status | delete | bye");
 
         Scanner in = new Scanner(System.in);
         ArrayList<Add> applications = new ArrayList<>();
@@ -194,6 +265,8 @@ public class JobPilot {
                 }
             } else if (input.equals("list")) {
                 listApplications(applications);
+            } else if (input.startsWith("search")) {
+                searchByCompany(applications, input);
             } else if (input.equals("sort")) {
                 sortApplications(applications);
             } else if (input.startsWith("status ")) {
@@ -205,25 +278,10 @@ public class JobPilot {
                     System.out.println(e.getMessage());
                 }
             } else {
-                System.out.println("Unknown command. Use: add or list or sort or status or delete or bye");
+                System.out.println("Unknown command. Use: add | list | search | sort | status | delete | bye");
             }
         }
         in.close();
-    }
-
-    /**
-     * Helper to delete an application from the list.
-     *
-     * @param input        The full user command.
-     * @param applications The list storing all job applications.
-     * @throws JobPilotException If the index provided is invalid.
-     */
-    private static void deleteApplication(String input, ArrayList<Add> applications) throws JobPilotException {
-        try {
-            Delete.deleteApplication(input, applications);
-        } catch (NumberFormatException e) {
-            throw new JobPilotException("Invalid format! Use: delete INDEX");
-        }
     }
 }
 
