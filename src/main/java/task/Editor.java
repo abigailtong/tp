@@ -20,9 +20,7 @@ public class Editor {
      */
     public static void editApplication(String input, ArrayList<Application> applications)
             throws JobPilotException {
-        // Parse the command string into individual fields
         try {
-            // Normalize whitespace
             String normalized = input.trim().replaceAll("\\s+", " ");
             String[] parts = normalized.split(" ");
 
@@ -32,7 +30,6 @@ public class Editor {
 
             int index = Integer.parseInt(parts[1]) - 1;
 
-            // Find the start of fields (skip "edit INDEX")
             int fieldsStart = normalized.indexOf(" ", normalized.indexOf(" ") + 1) + 1;
             if (fieldsStart <= 0 || fieldsStart >= normalized.length()) {
                 throw new JobPilotException("No valid fields to update!");
@@ -40,7 +37,6 @@ public class Editor {
 
             String remaining = normalized.substring(fieldsStart);
 
-            // Parse each field
             String company = null;
             String position = null;
             String date = null;
@@ -81,7 +77,6 @@ public class Editor {
                 }
             }
 
-            // Call the existing edit method
             editApplication(index, applications, company, position, date, status);
 
         } catch (NumberFormatException e) {

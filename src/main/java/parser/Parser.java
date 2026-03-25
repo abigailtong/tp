@@ -8,7 +8,7 @@ import parser.subparsers.*;
  */
 public class Parser {
 
-    public static ParsedCommand parse(String input) throws JobPilotException {
+    public static ParsedCommand parse(String input) {
         String trimmed = input.trim();
 
         if (trimmed.equals("bye")) {
@@ -20,17 +20,41 @@ public class Parser {
         } else if (trimmed.equals("help")) {
             return new ParsedCommand(CommandType.HELP);
         } else if (trimmed.startsWith("add")) {
-            return ApplicationParser.parse(trimmed);
+            try {
+                return ApplicationParser.parse(trimmed);
+            } catch (JobPilotException e) {
+                return new ParsedCommand(CommandType.ERROR, e.getMessage());
+            }
         } else if (trimmed.startsWith("delete")) {
-            return DeleterParser.parse(trimmed);
+            try {
+                return DeleterParser.parse(trimmed);
+            } catch (JobPilotException e) {
+                return new ParsedCommand(CommandType.ERROR, e.getMessage());
+            }
         } else if (trimmed.startsWith("edit")) {
-            return EditorParser.parse(trimmed);
+            try {
+                return EditorParser.parse(trimmed);
+            } catch (JobPilotException e) {
+                return new ParsedCommand(CommandType.ERROR, e.getMessage());
+            }
         } else if (trimmed.startsWith("search")) {
-            return SearcherParser.parse(trimmed);
+            try {
+                return SearcherParser.parse(trimmed);
+            } catch (JobPilotException e) {
+                return new ParsedCommand(CommandType.ERROR, e.getMessage());
+            }
         } else if (trimmed.startsWith("status")) {
-            return StatusParser.parse(trimmed);
+            try {
+                return StatusParser.parse(trimmed);
+            } catch (JobPilotException e) {
+                return new ParsedCommand(CommandType.ERROR, e.getMessage());
+            }
         } else if (trimmed.startsWith("tag")) {
-            return TaggerParser.parse(trimmed);
+            try {
+                return TaggerParser.parse(trimmed);
+            } catch (JobPilotException e) {
+                return new ParsedCommand(CommandType.ERROR, e.getMessage());
+            }
         } else {
             return new ParsedCommand(CommandType.UNKNOWN);
         }
