@@ -26,7 +26,6 @@ public class JobPilot {
         while (true) {
             String input = Ui.readCommand();
             ParsedCommand cmd = Parser.parse(input);
-
             boolean shouldContinue = runner.run(cmd);
 
             if (!shouldContinue) {
