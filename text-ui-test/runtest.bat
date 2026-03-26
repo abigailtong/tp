@@ -6,11 +6,7 @@ cd ..
 call gradlew clean shadowJar
 
 cd build\libs
-for /f "tokens=*" %%a in (
-    'dir /b *.jar'
-) do (
-    set jarloc=%%a
-)
+set jarloc=duke.jar
 
 java -cp %jarloc% app.JobPilot < ..\..\text-ui-test\input.txt > ..\..\text-ui-test\ACTUAL.TXT
 
