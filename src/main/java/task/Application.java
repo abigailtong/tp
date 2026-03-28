@@ -140,4 +140,3 @@ public class Application implements Comparable<Application> {
         return Collections.unmodifiableSet(industryTags);
     }
 }
-

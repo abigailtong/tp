@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for editing applications using the Edit class.
  * Covers success, error, and edge cases.
  */
-class EditTest {
+class EditorTest {
 
     private ArrayList<Application> applications;
     private Application testApp;
