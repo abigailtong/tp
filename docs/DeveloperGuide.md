@@ -525,7 +525,7 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 - **Expected:**
   - First application removed from list.
   - `Ui.showApplicationDeleted()` shows the deleted application and remaining count.
-  - `storage.saveToFile()` updates `JobPilotData.txt`.
+  - `Storage.saveToFile()` updates `JobPilotData.txt`.
 
 #### Test case: `delete 0`
 
@@ -533,7 +533,7 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 - **Expected:**
   - Error thrown.
   - No deletion occurs.
-  - storage remains unchanged.
+  - Storage remains unchanged.
 
 #### Test case: `delete` (no index)
 
@@ -549,7 +549,7 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 - **Expected:**
   - Error thrown.
   - No deletion.
-  - storage remains consistent.
+  - Storage remains consistent.
 
 #### Test case: `delete N+1` (index out of range)
 
@@ -559,11 +559,11 @@ tracker to allow users to get a bird's eye view of all their applications and ma
   - No deletion occurs.
   - Data file unchanged.
 
-### storage Feature Testing
+### Storage Feature Testing
 
 1. Perform `add`, `edit`, or `delete` command.  
    **Expected:**
-  - `storage.saveToFile()` is called.
+  - `Storage.saveToFile()` is called.
   - `JobPilotData.txt` updated with the latest application list.
   - On next launch, the list reflects all modifications.
   
