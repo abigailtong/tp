@@ -4,9 +4,13 @@
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
-## Design & Implementation
+## Design
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+### UI Component
+
+
+
+## Implementation
 
 ### Edit Application Feature
 The Edit feature allows users to modify existing job applications. This feature was implemented by Labelle.
@@ -432,14 +436,11 @@ Given below is an example usage scenario:
 | Backward compatibility | Existing data remains valid |
 
 
-## Product scope
-### 
-  profile
+## Product Scope
+### Target User Profile
+University students and fresh graduates applying for internships or jobs and want to keep track of their applications.
 
-
-  students or job seekers looking for an efficient way to track internship and full-time job applications using a CLI interface.
-
-### Value proposition
+### Value Proposition
 In the current job market, applying to many roles has become the norm. As such, JobPilot acts a 
 tracker to allow users to get a bird's eye view of all their applications and manage them effectively.
 
