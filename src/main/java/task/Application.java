@@ -6,9 +6,6 @@ import java.time.format.DateTimeParseException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Collections;
-import java.util.logging.Logger;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.SimpleFormatter;
 
 /**
  * Represents a job application and provides methods to manage its data.
@@ -16,18 +13,6 @@ import java.util.logging.SimpleFormatter;
 
 public class Application implements Comparable<Application> {
 
-    static {
-        System.setProperty("user.language", "en");
-        System.setProperty("user.country", "US");
-
-        Logger rootLogger = Logger.getLogger("");
-        rootLogger.setUseParentHandlers(false);
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setFormatter(new SimpleFormatter());
-        rootLogger.addHandler(handler);
-    }
-
-    private static final Logger logger = Logger.getLogger(Application.class.getName());
     private String company;
     private String position;
     private LocalDate date;
@@ -145,13 +130,11 @@ public class Application implements Comparable<Application> {
     public void addIndustryTag(IndustryTag tag) {
         assert tag != null : "Tag cannot be null";
         industryTags.add(tag);
-        logger.info("Added tag " + tag + " to application: " + company + " - " + position);
     }
 
     public void removeIndustryTag(IndustryTag tag) {
         assert tag != null : "Tag cannot be null";
         industryTags.remove(tag);
-        logger.info("Removed tag " + tag + " from application: " + company + " - " + position);
     }
 
     public Set<IndustryTag> getIndustryTags() {
