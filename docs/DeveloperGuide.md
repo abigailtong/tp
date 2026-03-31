@@ -2,7 +2,8 @@
 
 ## Acknowledgements
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+This project was guided by the [SE-EDU initiative's](https://se-education.org) AddressBook-Level3 (AB3). We took guidance from its core architecture., parser design, 
+and command execution flow to better suit JobPilot.
 
 ## Design
 
@@ -543,8 +544,6 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 * **Tag** - A label assigned to an application for categorization.
 
 ## Instructions for manual testing
-
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
 
 ## Initial Launch
 1. Use the provided `JobPilot.jar`.
