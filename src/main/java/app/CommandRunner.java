@@ -34,8 +34,12 @@ public class CommandRunner {
         switch (cmd.type) {
 
             case BYE:
-                Ui.showGoodbye(applications.size());
-                Ui.close();
+                try {
+                    Ui.showGoodbye(applications.size());
+                    Ui.close();
+                } catch (IllegalStateException e) {
+                    Ui.showError("Scanner was already closed.");
+                }
                 return false;
 
             case HELP:
@@ -217,10 +221,6 @@ public class CommandRunner {
                 break;
 
             case UNKNOWN:
-                Ui.showError("Unknown command. Type 'help' to see available commands.");
-                break;
-
-            case ERROR:
                 Ui.showError(cmd.errorMessage);
                 break;
 
