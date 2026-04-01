@@ -38,7 +38,7 @@ public class CommandRunner {
                     Ui.showGoodbye(applications.size());
                     Ui.close();
                 } catch (IllegalStateException e) {
-                    System.out.println("Scanner was already closed.");
+                    Ui.showError("Scanner was already closed.");
                 }
                 return false;
 
