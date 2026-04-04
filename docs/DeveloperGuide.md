@@ -552,14 +552,13 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 ### 2. Usability
 - Command syntax shall remain consistent with clear prefixes (`c/`, `p/`, `d/`, `s/`, `add/`, `remove/`, `note/`) to minimize user errors.
 - Error messages shall be **descriptive and actionable**, guiding users to correct input mistakes.
-- Commands shall support **partial input** where applicable (e.g., partial company names for search).
 
 ### 3. Accessibility
 - Command-line outputs shall be **readable with standard font sizes**, use clear formatting (tables, line breaks), and avoid color dependence.
 - Messages shall be concise, avoiding technical jargon when addressing end users.
 
 ### 4. OS requirement
-- Should work on any mainstream OS as long as it has Java 17 or above installed.
+- Shall work on any mainstream OS as long as it has Java 17 or above installed.
 
 ## Glossary
 
