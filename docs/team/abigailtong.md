@@ -38,15 +38,12 @@
   - Standardized error handling by allowing different components to throw consistent exception messages.
  
 ### Developer Guide Contributions:
-- Documented the UI component, storage component, and delete feature.
-- Added PlantUML class and sequence diagrams for the above components and features.
+- Documented the UI component, storage component, and delete feature, with PlantUML class and sequence diagrams.
 - Wrote manual test cases for delete and storage features.
-- Specified acknowledgements, non-functional requirements, target user profile, and value proposition.
 
 ### User Guide Contributions:
 - Documented `help`, `delete`, and `bye` commands.
 - Documented **command summary** for all features.
-- Authored FAQ, quick start instructions, and introduction sections.
 
 ### Contributions to Team-Based Tasks
 1. Kept track of internal team timelines and maintained the issue tracker, ensuring tasks and milestone deadlines were properly set.
@@ -54,7 +51,7 @@
 3. Released v1.0 and v2.0, including all necessary items, and authored the project overview in `README.md`.
 4. Defined target user profile, value proposition, and non-functional requirements in the Developer Guide.
 5. Authored acknowledgements and manual testing instructions for launching JobPilot using `JobPilot.jar` and checking for the CLI prompt and logo in the Developer Guide.
-6. Documented product introduction, directory setup, quick start instructions and command summary in the User Guide.
+6. Documented product introduction, directory setup, quick start instructions, FAQs and command summary in the User Guide.
 
 <div style="page-break-after: always;"></div>
 
