@@ -29,12 +29,10 @@
   - Designed the CLI interface for JobPilot with dedicated methods for displaying user-facing and error messages for all commands.
   
 - **Storage Tests (`StorageTest.java`)**
-  - Achieved 83% Line Coverage of the Storage class.
-  - Test scope included edge cases such as empty files, missing files, and corrupted lines to ensure the storage component behaves safely.
+  - Test scope included edge cases such as empty files, missing files, and corrupted lines to ensure the storage component behaves safely, with 83% Line Coverage.
 
 - **Delete Feature Tests (`DeleterTest.java`)**
-  - Achieved 71% Line Coverage of the Deleter class.
-  - Test scope included the deleting applications at different positions in the list.
+  - Test scope included the deleting applications at different positions in the list, with 71% Line Coverage.
  
 - **Exceptions Class (`JobPilotException.java`)**
   - Standardized error handling by allowing different components to throw consistent exception messages.
@@ -52,12 +50,11 @@
 
 ### Contributions to Team-Based Tasks
 1. Kept track of internal team timelines and maintained the issue tracker, ensuring tasks and milestone deadlines were properly set.
-2. Spearheaded separation of concerns by splitting the code into Ui, CommandRunner, and Parser classes.
-3. Released v1.0 and v2.0, including all necessary items.
+2. Spearheaded separation of concerns by splitting the code into multiple functional classes.
+3. Released v1.0 and v2.0, including all necessary items, and authored the project overview in `README.md`.
 4. Defined target user profile, value proposition, and non-functional requirements in the Developer Guide.
 5. Authored acknowledgements and manual testing instructions for launching JobPilot using `JobPilot.jar` and checking for the CLI prompt and logo in the Developer Guide.
 6. Documented product introduction, directory setup, quick start instructions and command summary in the User Guide.
-7. Authored the project overview in `README.md`.
 
 <div style="page-break-after: always;"></div>
 
