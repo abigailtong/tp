@@ -134,12 +134,13 @@ public class CommandRunner {
 
     private void handleFilter(ParsedCommand cmd) {
         try {
-            Filterer.filterByStatus(applications, cmd.getSearchTerm());
+            String status = cmd.getSearchTerm();
+            ArrayList<Application> results = Filterer.filterByStatus(applications, status);
+            Ui.showFilterResults(results, status);
         } catch (JobPilotException e) {
             Ui.showError(e.getMessage());
         }
     }
-
     // ===================== SORT =====================
 
     private void handleSort(String rawSortTerm) {
