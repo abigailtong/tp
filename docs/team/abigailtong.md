@@ -13,7 +13,6 @@
 ### New Features:
 - **Deletion of Application (`Deleter.java`)**
   - Implemented the full deletion workflow for job applications with validation for invalid indices and empty lists.
-  - Used assertions to strengthen the internal logic and prevent invalid states.
   - `Deleter` to handle only deletion logic and return the deleted `Application` object to `CommandRunner`, keeping the architecture modular and separating business logic from UI handling.
   - The implementation was moderately challenging as it required coordination between various components.
   - The feature is complete as it supports valid deletion and safely handles invalid or edge-case inputs.
@@ -22,35 +21,24 @@
   - Implemented saving and loading of applications in `JobPilotData.txt` inside a `data/` directory.
   - Automatically creates missing storage directory and files if they do not exist.
   - Parses saved applications back into objects while actively skipping corrupted or incomplete lines instead of crashing the application.
-  - `saveToFile()` persists all fields, including tags and notes, across sessions.
-  - Added logging for easier debugging and verification of storage operations.
   - This was a deeper enhancement because it required handling file I/O, parsing logic, error recovery, and data consistency across multiple fields.
   - The feature is complete as it supports both reading and writing of all application data and handles common failure cases such as missing files and corrupted entries.
 
 ### Enhancements Added:
 - **UI Component (`Ui.java`)**
-  - Designed the CLI interface for JobPilot to ensure all user interactions are displayed consistently.
-  - Implemented dedicated methods for displaying user-facing and error messages for all commands.
-  - Kept the UI logic separate from parsing and command execution, improving maintainability and making it easier to expand application scope in the future.
-  - This enhancement was important because it acts as the bridge between all backend features and ensures the application feels polished.
-
+  - Designed the CLI interface for JobPilot with dedicated methods for displaying user-facing and error messages for all commands.
+  
 - **Storage Tests (`StorageTest.java`)**
   - Achieved 83% Line Coverage of the Storage class.
-  - Tested saving/loading for single and multiple applications.
   - Test scope included edge cases such as empty files, missing files, and corrupted lines to ensure the storage component behaves safely.
-  - These tests make the storage component more reliable because they confirm that user data will remain consistent across sessions.
 
 - **Delete Feature Tests (`DeleterTest.java`)**
   - Achieved 71% Line Coverage of the Deleter class.
   - Test scope included the deleting applications at different positions in the list.
-  - Verified that invalid indices and empty lists are handled gracefully without causing the application to crash.
-  - These tests strengthen confidence in the feature because they cover both normal usage and edge cases.
-
+ 
 - **Exceptions Class (`JobPilotException.java`)**
-  - Implemented a custom exception class for handling invalid user input.
   - Standardized error handling by allowing different components to throw consistent exception messages.
-  - Improved maintainability by centralizing application-specific errors into a single exception type.
-
+ 
 ### Developer Guide Contributions:
 - Documented the UI component, storage component, and delete feature.
 - Added PlantUML class and sequence diagrams for the above components and features.
