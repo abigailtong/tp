@@ -24,7 +24,6 @@ class EditorTest {
         applications.add(testApp);
     }
 
-    // ================= SUCCESS CASES =================
 
     @Test
     void editApplication_updateCompanyOnly_success() throws JobPilotException {
@@ -77,8 +76,6 @@ class EditorTest {
         assertEquals("Amazon Web Services", testApp.getCompany());
         assertEquals("Senior Software Engineer", testApp.getPosition());
     }
-
-    // ================= ERROR CASES =================
 
     @Test
     void editApplication_missingIndex_throwsException() {
@@ -140,8 +137,6 @@ class EditorTest {
             assertTrue(exception.getMessage().contains("cannot be empty"));
         }
     }
-
-    // ================= EDGE CASES =================
 
     @Test
     void editApplication_emptyList_throwsException() {

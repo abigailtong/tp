@@ -2,12 +2,17 @@ package parser.subparsers;
 
 import exception.JobPilotException;
 import parser.ParsedCommand;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Parses the edit command.
  * Format: edit INDEX [c/COMPANY] [p/POSITION] [d/DATE] [s/STATUS]
  */
 public class EditorParser {
+
+    private static final Set<String> VALID_PREFIXES = new HashSet<>(Arrays.asList("c/", "p/", "d/", "s/"));
 
     public static ParsedCommand parse(String input) throws JobPilotException {
         String normalized = input.trim().replaceAll("\\s+", " ");
@@ -22,6 +27,30 @@ public class EditorParser {
             index = Integer.parseInt(parts[1]) - 1;
         } catch (NumberFormatException e) {
             throw new JobPilotException("Invalid index! Use a number: edit 1 c/Google");
+        }
+
+        for (int i = 2; i < parts.length; i++) {
+            String token = parts[i];
+            boolean isValidPrefix = false;
+            for (String prefix : VALID_PREFIXES) {
+                if (token.startsWith(prefix)) {
+                    isValidPrefix = true;
+                    break;
+                }
+            }
+
+            if (!isValidPrefix && i > 2 && parts[i-1].startsWith("c/") && !parts[i-1].contains(" ")) {
+                String prevToken = parts[i-1];
+                if (prevToken.startsWith("c/") || prevToken.startsWith("p/") ||
+                        prevToken.startsWith("d/") || prevToken.startsWith("s/")) {
+                    isValidPrefix = true;
+                }
+            }
+
+            if (!isValidPrefix) {
+                throw new JobPilotException("Invalid edit format! Unrecognized text: '" + token +
+                        "'. Use: edit INDEX [c/COMPANY] [p/POSITION] [d/DATE] [s/STATUS]");
+            }
         }
 
         int fieldsStart = normalized.indexOf(" ", normalized.indexOf(" ") + 1) + 1;
@@ -67,7 +96,7 @@ public class EditorParser {
                 }
                 pos = nextPos;
             } else {
-                pos++;
+                throw new JobPilotException("Invalid edit format! Unrecognized text at position " + pos);
             }
         }
 
