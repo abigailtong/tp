@@ -16,12 +16,11 @@ public class StatusParser {
 
     static {
         LOGGER.setLevel(Level.OFF);
-        // Prevents log messages from leaking into the console during runtest.bat
         LOGGER.setUseParentHandlers(false);
     }
 
     private static final String COMMAND_WORD = "status";
-    private static final String PREFIX_SET = "s/";
+    private static final String PREFIX_SET = "set/";
     private static final String PREFIX_NOTE = "note/";
 
     /**
