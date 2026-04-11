@@ -11,21 +11,30 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.lang.reflect.Type;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Handles reading from and writing to the persistent storage file for JobPilot.
+ * Ensures that the application list is saved between sessions.
+ */
 public class Storage {
 
     private static final Logger LOGGER = Logger.getLogger(Storage.class.getName());
 
     private static final String CURRENT_WORKING_DIRECTORY = System.getProperty("user.dir");
-    private static final File FILE = new File(CURRENT_WORKING_DIRECTORY + "/data/JobPilotData.json");
+    private static final File FILE = Paths.get(CURRENT_WORKING_DIRECTORY, "data", "JobPilotData.json").toFile();
 
     private final Gson gson;
     private final File jobPilotDataFile;
 
+    /**
+     * Initializes the storage management.
+     * Ensures the storage file exists before any operations are performed.
+     */
     public Storage() {
         this.jobPilotDataFile = FILE;
         LOGGER.setLevel(Level.SEVERE);
@@ -43,6 +52,10 @@ public class Storage {
         ensureFileExists();
     }
 
+    /**
+     * Checks for the existence of the data directory and the storage file, JobPilotData.json.
+     * If they do not exist, it creates them.
+     */
     private void ensureFileExists() {
         try {
             File parentDir = jobPilotDataFile.getParentFile();
@@ -60,6 +73,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Reads applications from the storage file, parses them, and returns them as a list.
+     *
+     * @return An ArrayList containing the saved Applications. Returns an empty list if the file is empty.
+     */
     public ArrayList<Application> loadFromFile() {
         ensureFileExists();
 
@@ -83,6 +101,12 @@ public class Storage {
         return applications;
     }
 
+    /**
+     * Writes the current list of applications to the storage file.
+     * Overwrites the existing file content with the updated Applications.
+     *
+     * @param applications The ArrayList containing the Application objects to be saved.
+     */
     public void saveToFile(ArrayList<Application> applications) {
         ensureFileExists();
 
