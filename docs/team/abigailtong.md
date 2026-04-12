@@ -18,8 +18,8 @@
   - The feature is complete as it supports valid deletion and safely handles invalid or edge-case inputs.
 
 - **Persistent Storage (`Storage.java`)**
-  - Implemented saving and loading of applications in `JobPilotData.txt` inside a `data/` directory.
-  - Automatically creates missing storage directory and files if they do not exist.
+  - Implemented saving and loading of applications in `JobPilotData.json` inside a `data/` directory.
+  - Automatically creates missing storage directory and files if they do not exist, via an external Gson library.
   - Parses saved applications back into objects while actively skipping corrupted or incomplete lines instead of crashing the application.
   - This was a deeper enhancement because it required handling file I/O, parsing logic, error recovery, and data consistency across multiple fields.
   - The feature is complete as it supports both reading and writing of all application data and handles common failure cases such as missing files and corrupted entries.
@@ -46,7 +46,7 @@
 - Documented **command summary** for all features.
 
 ### Contributions to Team-Based Tasks
-1. Kept track of internal team timelines and maintained the issue tracker, ensuring tasks and milestone deadlines were properly set.
+1. Kept track of internal team timelines and maintained the issue tracker, inclusive of bug delegation.
 2. Spearheaded separation of concerns by splitting the code into multiple functional classes.
 3. Released v1.0 and v2.0, including all necessary items, and authored the project overview in `README.md`.
 4. Defined target user profile, value proposition, and non-functional requirements in the Developer Guide.
@@ -80,8 +80,8 @@ By using JobPilot, users can track application progress and important details wi
 1. **Install Java 17+:** Verify that your computer has Java `17` or a newer version installed. <br>
    *Mac users:* Please follow the specific JDK installation guide [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 2. **Download the App:** Grab the latest `.jar` release file from [here](https://github.com/AY2526S2-CS2113-W13-3/tp/releases).
-3. **Set Up Your Directory:** Move the downloaded file into a dedicated new folder. (Note: Running the app for the first time will automatically generate a `data/JobPilotData.txt` file in this directory to save your tasks).
-4. **Launch JobPilot** Open your terminal and run the app with the following command: `java -jar <release-name>.jar`
+3. **Set Up Your Directory:** Move the downloaded file into a dedicated new folder. (Note: Running the app for the first time will automatically generate a `data/JobPilotData.json` file in this directory to save your applications).
+4. **Launch JobPilot:** Open your terminal, navigate to the folder, and run the following command: `java -jar JobPilot.jar`
 
 ### Deleting an application: `delete`
 Deletes the specified application from JobPilot.
