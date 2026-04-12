@@ -157,9 +157,23 @@ public class Ui {
 
     /**
      * Displays a message indicating that applications have been sorted.
+     *
+     * @param sortSpec Determines the sorting order.
      */
-    public static void showSortedMessage() {
-        System.out.println("Sorted by submission date!");
+    public static void showSortedMessage(String sortSpec) {
+        String s = sortSpec != null ? sortSpec.trim().toLowerCase() : "";
+        boolean rev = s.contains("reverse");
+        String key = s.replace("reverse", "").trim();
+        String field;
+        if (key.startsWith("company")) {
+            field = "company name";
+        } else if (key.startsWith("status")) {
+            field = "status";
+        } else {
+            field = "submission date";
+        }
+        String order = rev ? " (reverse order)." : ".";
+        System.out.println("Sorted by " + field + order);
     }
 
     /**
