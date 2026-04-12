@@ -54,15 +54,13 @@ Designed and built a modular parser system that routes commands to dedicated sub
 
 **Why it's complete:**
 - Encapsulates all parsing logic in one place, separate from command execution
-<<<<<<< HEAD
 - Uses a `CommandType` enum for clean routing
 - Returns a `ParsedCommand` object containing all parsed data
 - Subparsers each handle one command, making the system easy to extend
-=======
+
 - Uses a CommandType enum for clean routing
 - Returns a ParsedCommand object containing all parsed data 
 - Subparsers (ApplicationParser, DeleterParser, EditorParser, etc.) each handle one command, making the system easy to extend
->>>>>>> f50098486a7c47b965f73d7a19d8cf01f0253a8a
 
 **Implementation complexity:**
 - Designed a prefix-based parsing algorithm that correctly captures multi-word values (e.g., `c/Amazon Web Services`)
@@ -73,7 +71,6 @@ Designed and built a modular parser system that routes commands to dedicated sub
 ---
 
 ### Team Contributions
-<<<<<<< HEAD
 - **Communicator** – Set internal deadlines and tracked team tasks
 - **Merge Support** – Helped resolve merge conflicts in `JobPilot.java`
 - **Code Review** – Reviewed teammates' pull requests and provided feedback
@@ -111,9 +108,10 @@ Designed and built a modular parser system that routes commands to dedicated sub
 - Included example output showing the updated application with status and tags
 
 ---
-=======
+
+### Contributions to team-based tasks:
 - Communicator for the team (set internal deadlines, set todos for team)
-- Helped resolve merge conflicts in JobPilot.java 
+- Helped resolve merge conflicts for others in JobPilot.java 
 - Reviewed teammates pull request
 
 ### Developer Guide Contributions:
@@ -130,6 +128,7 @@ Designed and built a modular parser system that routes commands to dedicated sub
 
 #### User Stories
 - Authored user stories for add, list, delete, edit, search, sort, filter, tag, and persistent storage features.
+---
 
 ### Contributions to User Guide
 #### Add Application Feature
@@ -142,4 +141,4 @@ Designed and built a modular parser system that routes commands to dedicated sub
 - Specified the flexible format with optional fields (c/COMPANY, p/POSITION, d/DATE, s/STATUS). 
 - Provided multiple examples demonstrating single-field and multi-field edits. 
 - Included example output showing the updated application with status and tags.
->>>>>>> f50098486a7c47b965f73d7a19d8cf01f0253a8a
+---

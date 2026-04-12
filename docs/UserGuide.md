@@ -266,10 +266,6 @@ ___________________________________________________________________
        to the other unless you manually transfer the updated data file.
 
 ## Command Summary
-<<<<<<< HEAD
-
-=======
->>>>>>> f50098486a7c47b965f73d7a19d8cf01f0253a8a
 | Action     | Format, Examples                                                                                                      |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
 | Add        | `add c/COMPANY p/POSITION d/DATE` <br> e.g., `add c/Google p/Software Engineer d/2026-03-29`                          |
