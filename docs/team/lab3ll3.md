@@ -54,9 +54,15 @@ Designed and built a modular parser system that routes commands to dedicated sub
 
 **Why it's complete:**
 - Encapsulates all parsing logic in one place, separate from command execution
+<<<<<<< HEAD
 - Uses a `CommandType` enum for clean routing
 - Returns a `ParsedCommand` object containing all parsed data
 - Subparsers each handle one command, making the system easy to extend
+=======
+- Uses a CommandType enum for clean routing
+- Returns a ParsedCommand object containing all parsed data 
+- Subparsers (ApplicationParser, DeleterParser, EditorParser, etc.) each handle one command, making the system easy to extend
+>>>>>>> f50098486a7c47b965f73d7a19d8cf01f0253a8a
 
 **Implementation complexity:**
 - Designed a prefix-based parsing algorithm that correctly captures multi-word values (e.g., `c/Amazon Web Services`)
@@ -67,6 +73,7 @@ Designed and built a modular parser system that routes commands to dedicated sub
 ---
 
 ### Team Contributions
+<<<<<<< HEAD
 - **Communicator** – Set internal deadlines and tracked team tasks
 - **Merge Support** – Helped resolve merge conflicts in `JobPilot.java`
 - **Code Review** – Reviewed teammates' pull requests and provided feedback
@@ -104,3 +111,35 @@ Designed and built a modular parser system that routes commands to dedicated sub
 - Included example output showing the updated application with status and tags
 
 ---
+=======
+- Communicator for the team (set internal deadlines, set todos for team)
+- Helped resolve merge conflicts in JobPilot.java 
+- Reviewed teammates pull request
+
+### Developer Guide Contributions:
+#### Parser Component Documentation
+
+- Documented the modular parser architecture with CommandType enum and ParsedCommand data class. 
+- Illustrated prefix-based parsing logic (c/, p/, d/, s/) that handles multi-word values. 
+- Included PlantUML class diagram and sequence diagram for parser flow.
+
+#### Editor Feature Documentation
+- Documented the edit command for partial updates of company, position, date, and status. 
+- Covered error handling for invalid indices, empty fields, and malformed dates. 
+- Included PlantUML sequence diagram and error handling flow diagram.
+
+#### User Stories
+- Authored user stories for add, list, delete, edit, search, sort, filter, tag, and persistent storage features.
+
+### Contributions to User Guide
+#### Add Application Feature
+- Documented the add command for creating new job applications with company, position, and submission date. 
+- Specified the required format and field descriptions (c/COMPANY, p/POSITION, d/DATE). 
+- Included example usage and expected output.
+
+#### Edit Application Feature
+- Documented the edit command for modifying existing applications with partial updates. 
+- Specified the flexible format with optional fields (c/COMPANY, p/POSITION, d/DATE, s/STATUS). 
+- Provided multiple examples demonstrating single-field and multi-field edits. 
+- Included example output showing the updated application with status and tags.
+>>>>>>> f50098486a7c47b965f73d7a19d8cf01f0253a8a
