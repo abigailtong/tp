@@ -5,7 +5,7 @@ import parser.ParsedCommand;
 
 /**
  * Parses the search command.
- * Supports: exact match, negative search, multi-keyword search
+ * Supports one field prefix (c/p/s) with case-insensitive partial matching.
  */
 public class SearcherParser {
 
