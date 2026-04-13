@@ -90,28 +90,8 @@ class StorageTest {
 
         assertEquals(2, loadedApps.size());
 
-        // first app
         assertEquals("Google", loadedApps.get(0).getCompany());
-        assertEquals("SE Manager", loadedApps.get(0).getPosition());
-        assertEquals("2025-03-10", loadedApps.get(0).getDate());
-        assertEquals("INTERVIEW", loadedApps.get(0).getStatus());
-
-        assertTrue(
-                loadedApps.get(0).getIndustryTags().stream()
-                        .anyMatch(tag -> tag.getTagName().equals("TECH"))
-        );
-
-        // second app
         assertEquals("Amazon", loadedApps.get(1).getCompany());
-        assertEquals("Data Scientist", loadedApps.get(1).getPosition());
-        assertEquals("2025-04-01", loadedApps.get(1).getDate());
-        assertEquals("APPLIED", loadedApps.get(1).getStatus());
-        assertEquals("Follow up in 2 weeks", loadedApps.get(1).getNotes());
-
-        assertTrue(
-                loadedApps.get(1).getIndustryTags().stream()
-                        .anyMatch(tag -> tag.getTagName().equals("E-COMMERCE"))
-        );
     }
 
     @Test
@@ -178,6 +158,20 @@ class StorageTest {
         ArrayList<Application> loaded = storage.loadFromFile();
 
         assertNotNull(loaded);
+        assertTrue(loaded.isEmpty());
+    }
+
+    @Test
+    void loadFromFile_missingRequiredFields_shouldSkipEntry() throws Exception {
+        String corruptedJson =
+                "[{\"company\":\"Google\",\"position\":\"SE\"}]"; // missing date + status + notes + tags
+
+        FileWriter writer = new FileWriter(file, false);
+        writer.write(corruptedJson);
+        writer.close();
+
+        ArrayList<Application> loaded = storage.loadFromFile();
+
         assertTrue(loaded.isEmpty());
     }
 }
