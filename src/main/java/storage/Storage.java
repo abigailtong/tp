@@ -3,7 +3,6 @@ package storage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.MalformedJsonException;
 
 import task.Application;
 import ui.Ui;
@@ -27,7 +26,6 @@ import java.util.logging.Logger;
 public class Storage {
 
     private static final Logger LOGGER = Logger.getLogger(Storage.class.getName());
-
     private static final String CURRENT_WORKING_DIRECTORY = System.getProperty("user.dir");
     private static final File FILE = Paths.get(CURRENT_WORKING_DIRECTORY, "data", "JobPilotData.json").toFile();
 
@@ -48,11 +46,34 @@ public class Storage {
                         (com.google.gson.JsonSerializer<LocalDate>) (src, type, context) ->
                                 new com.google.gson.JsonPrimitive(src.toString()))
                 .registerTypeAdapter(LocalDate.class,
-                        (com.google.gson.JsonDeserializer<LocalDate>) (json, type, context) ->
-                                LocalDate.parse(json.getAsString()))
+                        (com.google.gson.JsonDeserializer<LocalDate>) Storage::deserializeLocalDate)
                 .create();
 
         ensureFileExists();
+    }
+
+    /**
+     * Deserializes a JSON element into a LocalDate object.
+     * Safely handles invalid, missing, or malformed date values.
+     *
+     * @return The re-formatted LocalDate.
+     */
+    private static LocalDate deserializeLocalDate(
+            com.google.gson.JsonElement json,
+            java.lang.reflect.Type type,
+            com.google.gson.JsonDeserializationContext context) {
+
+        String value = json.getAsString();
+
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+
+        try {
+            return LocalDate.parse(value);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -89,23 +110,9 @@ public class Storage {
 
         try (FileReader reader = new FileReader(jobPilotDataFile)) {
             Type listType = new TypeToken<ArrayList<Application>>() {}.getType();
-            ArrayList<Application> data = gson.fromJson(reader, listType);
+            ArrayList<Application> rawData = gson.fromJson(reader, listType);
 
-            if (data != null) {
-                for (Application app : data) {
-                    try {
-                        // Test the assertions to ensure Gson didn't inject null fields
-                        app.getCompany();
-                        app.getPosition();
-                        app.getDate();
-                        app.getStatus();
-                        applications.add(app);
-                    } catch (AssertionError | NullPointerException e) {
-                        System.out.println(" [WARNING] A corrupted application entry was found and skipped.");
-                        LOGGER.log(Level.WARNING, "Corrupted entry skipped", e);
-                    }
-                }
-            }
+            applications = filterValidApplications(rawData);
 
         } catch (com.google.gson.JsonParseException e) {
             Ui.showCorruptedDataWarning();
@@ -114,7 +121,47 @@ public class Storage {
             Ui.showLoadError(e.getMessage());
             LOGGER.log(Level.WARNING, "Load error: {0}", e.getMessage());
         }
+
         return applications;
+    }
+
+    /**
+     * Iterates through the raw deserialized data and filters out any corrupted entries.
+     *
+     * @param data The raw ArrayList parsed by Gson.
+     * @return A sanitized ArrayList containing only valid Application objects.
+     */
+    private ArrayList<Application> filterValidApplications(ArrayList<Application> data) {
+        ArrayList<Application> validApplications = new ArrayList<>();
+
+        if (data == null) {
+            return validApplications;
+        }
+
+        for (int i = 0; i < data.size(); i++) {
+            Application app = data.get(i);
+
+            try {
+                if (app == null
+                        || app.getCompany() == null || app.getCompany().trim().isEmpty()
+                        || app.getPosition() == null || app.getPosition().trim().isEmpty()
+                        || app.getDate() == null
+                        || app.getStatus() == null || app.getStatus().trim().isEmpty()
+                        || app.getNotes() == null || app.getIndustryTags() == null) {
+
+                    Ui.showLoadError("Skipped corrupted application at entry " + (i + 1));
+                    continue;
+                }
+
+                validApplications.add(app);
+
+            } catch (AssertionError | NullPointerException e) {
+                Ui.showLoadError("Skipped corrupted application at entry " + (i + 1));
+                LOGGER.log(Level.WARNING, "Corrupted entry skipped at index " + (i + 1), e);
+            }
+        }
+
+        return validApplications;
     }
 
     /**
@@ -127,11 +174,10 @@ public class Storage {
         ensureFileExists();
 
         try (FileWriter writer = new FileWriter(jobPilotDataFile)) {
-
             gson.toJson(applications, writer);
 
         } catch (IOException e) {
-            System.out.println("I could not save your data! " + e.getMessage());
+            Ui.showSaveError(e.getMessage());
             LOGGER.log(Level.SEVERE, "Save error", e);
         }
     }

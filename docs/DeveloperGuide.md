@@ -2,7 +2,7 @@
 
 ## Acknowledgements
 
-This project was guided by the [SE-EDU initiative's](https://se-education.org) AddressBook-Level3 (AB3). We took guidance from its core architecture., parser design, 
+This project was guided by the [SE-EDU initiative's](https://se-education.org) AddressBook-Level3 (AB3). We took guidance from its core architecture, parser design, 
 and command execution flow to better suit JobPilot.
   
 ## Design
@@ -54,15 +54,18 @@ The **API** of this component is specified in `Storage.java`.
 
 ![Storage Component](diagrams/component-storage/storage-class.png)
 
+<div style="page-break-after: always;"></div>
+
 The `Storage` component,
 
 * Can save job application data in **JSON format (`.json`)**, and read them back into corresponding `Application` objects.
 * Handles missing directories or files automatically by creating the necessary `data/JobPilotData.json` file upon initialization if it does not exist.
 * Implements **defensive parsing** to ensure the application never crashes upon startup:
-  * If individual application entries are missing required fields (caught via `AssertionError` or `NullPointerException`), the component safely skips the corrupted entry and continues loading the rest of the intact data.
-  * If the entire file is structurally malformed (e.g., `JsonParseException`), it catches the error, delegates a warning to the `Ui` component, and boots up with a fresh, empty list.
-* Depends on classes in the `task` component, because the `Storage` component's primary job is to serialize and deserialize `Application` and `IndustryTag` objects.
-* Utilizes the external **Gson** library for all JSON serialization and deserialization processes.
+  * If individual application entries are missing required fields (caught by `filterValidApplications()`), the component safely skips the corrupted entry and continues loading the rest of the data.
+  * Optional fields (`notes`, `industryTags`) must be present in the JSON structure; entries missing these fields are also treated as corrupted and skipped to maintain strict storage consistency.
+  * If the entire file is structurally malformed (e.g., `JsonParseException`), it catches the error, delegates a warning to the `Ui` component, and boots up with a new empty list.
+* Depends on classes in the `task` component, because the `Storage` component's primary job is to save and load `Application` and `IndustryTag` objects.
+* Utilizes the external **Gson** library for all JSON-related saving and loading processes.
 
 ### CommandRunner Component
 
@@ -170,6 +173,8 @@ Given below is an example usage scenario demonstrating how the Delete mechanism 
 The following sequence diagram shows the flow of deleting an application:
 
 ![Sequence](diagrams/delete/sequence.png)
+
+<div style="page-break-after: always;"></div>
 
 #### Design Considerations
 
@@ -471,7 +476,7 @@ The following sequence diagram illustrates the integrated flow of updating statu
 Computing students applying for jobs and want to keep track of their applications.
 
 ### Value Proposition
-In the current job market, applying to many roles has become the norm. As such, JobPilot acts a
+In the current job market, applying to many roles has become the norm. As such, JobPilot acts as a
 tracker to allow users to get a bird's eye view of all their applications and manage them effectively.
 
 ## User Stories
@@ -492,7 +497,7 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 ## Non-Functional Requirements
 
 ### 1. Performance
-- The application shall respond to any command (add, edit, delete, search, sort, tag, status) within **1 second** for up to **500 job applications**.
+- The application shall respond to any command within **1 second** for up to **500 job applications**.
 - Searching, sorting, and filtering operations shall execute in **O(n)** time complexity or better, where n is the number of applications.
 
 ### 2. Usability
@@ -504,7 +509,7 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 - Messages shall be concise, avoiding technical jargon when addressing end users.
 
 ### 4. OS Requirement
-- Shall work on any mainstream OS as long as it has Java 17 or above installed.
+- Shall work on any mainstream OS as long as it has Java 17 installed.
 
 ## Glossary
 
@@ -519,7 +524,7 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 1. Download the `JobPilot.jar` file.
 2. Place the jar in an empty folder. 
 3. Open a terminal in that folder and run the app with the following command: `java -jar JobPilot.jar`
-      **Expected:** JobPilot launches. The CLI prompt appears showing the JobPilot logo.
+     **Expected:** JobPilot launches. The CLI prompt appears showing the JobPilot logo.
 
 
 ### Edit Feature Testing
@@ -578,6 +583,8 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 | Missing index      | `delete`     | `JobPilotException` thrown indicating invalid index. No deletion occurs. Data file remains unchanged.                   |
 | Non-numeric index  | `delete abc` | `JobPilotException` thrown due to non-numeric input. No deletion occurs. Storage remains consistent.                    |
 | Index out of range | `delete N+1` | `JobPilotException` thrown indicating index is out of bounds. No deletion occurs. Data file remains unchanged.          |
+
+<div style="page-break-after: always;"></div>
 
 ### Storage Feature Testing
 

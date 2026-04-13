@@ -10,15 +10,18 @@
 
  package "Storage Component" <<Rectangle>> #FFFFFF {
      class "Storage" as Storage {
-         - {static} LOGGER : Logger
-         - {static} CURRENT_WORKING_DIRECTORY : String
-         - {static} FILE : File
+         - LOGGER : Logger
+         - CURRENT_WORKING_DIRECTORY : String
+         - FILE : File
          - gson : Gson
          - jobPilotDataFile : File
+
          + Storage()
+         - deserializeLocalDate() : LocalDate
          - ensureFileExists() : void
          + loadFromFile() : ArrayList<Application>
-         + saveToFile(applications : ArrayList<Application>) : void
+         - filterValidApplications() : ArrayList<Application>
+         + saveToFile() : void
      }
  }
 

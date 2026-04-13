@@ -264,4 +264,14 @@ public class Ui {
         System.out.println(" [ERROR] Error reading data: " + errorMessage);
         System.out.println(HORIZONTAL_LINE);
     }
+
+    /**
+     * Displays an error message when saving the data file fails.
+     *
+     * @param errorMessage The specific error exception message.
+     */
+    public static void showSaveError(String errorMessage) {
+        System.out.println(" [ERROR] Error saving data: " + errorMessage);
+        System.out.println(HORIZONTAL_LINE);
+    }
 }
