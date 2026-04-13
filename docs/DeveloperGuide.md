@@ -597,6 +597,8 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 | Non-numeric index | `delete abc` | `JobPilotException` thrown due to non-numeric input. No deletion occurs. Data file remains consistent.         |
 | Index out of range | `delete N+1` | `JobPilotException` thrown indicating index is out of bounds. No deletion occurs. Data file remains unchanged. |
 
+<div style="page-break-after: always;"></div>
+
 ### Storage Feature Testing
 
 | Test | Action | Expected                                                                                                                                                  |
