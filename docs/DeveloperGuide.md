@@ -59,10 +59,11 @@ The `Storage` component,
 * Can save job application data in **JSON format (`.json`)**, and read them back into corresponding `Application` objects.
 * Handles missing directories or files automatically by creating the necessary `data/JobPilotData.json` file upon initialization if it does not exist.
 * Implements **defensive parsing** to ensure the application never crashes upon startup:
-  * If individual application entries are missing required fields (caught via `AssertionError` or `NullPointerException`), the component safely skips the corrupted entry and continues loading the rest of the intact data.
-  * If the entire file is structurally malformed (e.g., `JsonParseException`), it catches the error, delegates a warning to the `Ui` component, and boots up with a fresh, empty list.
-* Depends on classes in the `task` component, because the `Storage` component's primary job is to serialize and deserialize `Application` and `IndustryTag` objects.
-* Utilizes the external **Gson** library for all JSON serialization and deserialization processes.
+  * If individual application entries are missing required fields (caught by `filterValidApplications()`), the component safely skips the corrupted entry and continues loading the rest of the data.
+  * Optional fields (`notes`, `industryTags`) must be present in the JSON structure; entries missing these fields are also treated as corrupted and skipped to maintain strict storage consistency.
+  * If the entire file is structurally malformed (e.g., `JsonParseException`), it catches the error, delegates a warning to the `Ui` component, and boots up with a new empty list.
+* Depends on classes in the `task` component, because the `Storage` component's primary job is to save and load `Application` and `IndustryTag` objects.
+* Utilizes the external **Gson** library for all JSON-related saving and loading processes.
 
 ### CommandRunner Component
 
@@ -629,7 +630,7 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 
 | Test | Command | Expected |
 |---|---|---|
-| Valid delete | `delete 1` | First application removed from list. Deleted application details and remaining count shown. `JobPilotData.txt` updated. |
+| Valid delete | `delete 1` | First application removed from list. Deleted application details and remaining count shown. |
 | Invalid index | `delete 0` | `JobPilotException` thrown indicating invalid index. No deletion occurs. Storage remains unchanged. |
 | Missing index | `delete` | `JobPilotException` thrown indicating invalid index. No deletion occurs. Data file remains unchanged. |
 | Non-numeric index | `delete abc` | `JobPilotException` thrown due to non-numeric input. No deletion occurs. Storage remains consistent. |
@@ -637,6 +638,6 @@ tracker to allow users to get a bird's eye view of all their applications and ma
 
 ### Storage Feature Testing
 
-| Test | Action | Expected                                                                                                                                               |
-|---|---|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Save after modification | Perform `add`, `edit`, or `delete` command | `Storage.saveToFile()` is called. `JobPilotData.txt` is updated with the latest application list. On next launch, the list reflects all modifications. |
+| Test | Action | Expected                                                                                                                                                |
+|---|---|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Save after modification | Perform `add`, `edit`, or `delete` command | `Storage.saveToFile()` is called. `JobPilotData.json` is updated with the latest application list. On next launch, the list reflects all modifications. |

@@ -1,6 +1,7 @@
 package task;
 
 import app.CommandRunner;
+import parser.Parser;
 import parser.ParsedCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class DeleterTest {
         Application onlyApplication = new Application("Microsoft", "UX Designer", "2026-03-03");
         applications.add(onlyApplication);
 
-        ParsedCommand cmd = new ParsedCommand(0); // delete first (and only) application
+        ParsedCommand cmd = Parser.parse("delete 1");
         runner.run(cmd);
 
         assertEquals(0, applications.size());
@@ -36,7 +37,7 @@ class DeleterTest {
         applications.add(new Application("Google", "Software Engineer", "2026-03-01"));
         applications.add(new Application("Apple", "Data Analyst", "2026-03-02"));
 
-        ParsedCommand cmd = new ParsedCommand(0); // index 0 = first application
+        ParsedCommand cmd = Parser.parse("delete 1");
         runner.run(cmd);
 
         assertEquals(1, applications.size());
@@ -50,7 +51,7 @@ class DeleterTest {
         applications.add(first);
         applications.add(second);
 
-        ParsedCommand cmd = new ParsedCommand(1); // delete second application (index 1)
+        ParsedCommand cmd = Parser.parse("delete 2");
         runner.run(cmd);
 
         assertEquals(1, applications.size());
@@ -67,7 +68,7 @@ class DeleterTest {
         applications.add(second);
         applications.add(third);
 
-        ParsedCommand cmd = new ParsedCommand(0);
+        ParsedCommand cmd = Parser.parse("delete 1");
         runner.run(cmd);
 
         assertEquals(2, applications.size());
@@ -85,7 +86,7 @@ class DeleterTest {
         applications.add(second);
         applications.add(third);
 
-        ParsedCommand cmd = new ParsedCommand(1);
+        ParsedCommand cmd = Parser.parse("delete 2");
         runner.run(cmd);
 
         assertEquals(2, applications.size());
@@ -103,7 +104,7 @@ class DeleterTest {
         applications.add(second);
         applications.add(third);
 
-        ParsedCommand cmd = new ParsedCommand(2);
+        ParsedCommand cmd = Parser.parse("delete 3");
         runner.run(cmd);
 
         assertEquals(2, applications.size());
@@ -113,7 +114,7 @@ class DeleterTest {
 
     @Test
     public void deleteApplication_fromEmptyList_invalidIndexHandled() {
-        ParsedCommand cmd = new ParsedCommand(0);
+        ParsedCommand cmd = Parser.parse("delete 1");
         boolean continueRunning = runner.run(cmd);
 
         assertEquals(0, applications.size());
@@ -124,8 +125,7 @@ class DeleterTest {
     public void deleteApplication_missingIndex_shouldNotModifyList() {
         applications.add(new Application("Google", "SE", "2026-03-01"));
 
-        // invalid delete (no index)
-        ParsedCommand cmd = new ParsedCommand(-999); // assuming invalid index representation
+        ParsedCommand cmd = Parser.parse("delete");
         boolean continueRunning = runner.run(cmd);
 
         assertEquals(1, applications.size());
@@ -137,8 +137,7 @@ class DeleterTest {
         Application app = new Application("Google", "SE", "2026-03-01");
         applications.add(app);
 
-        // malformed delete command parsed incorrectly
-        ParsedCommand cmd = new ParsedCommand(-1); // invalid due to parsing failure
+        ParsedCommand cmd = Parser.parse("delete 1 extra");
         runner.run(cmd);
 
         assertEquals(1, applications.size());
@@ -149,7 +148,7 @@ class DeleterTest {
     public void deleteApplication_invalidIndex_doesNotCrash() {
         applications.add(new Application("Google", "Software Engineer", "2026-03-01"));
 
-        ParsedCommand cmd = new ParsedCommand(5);
+        ParsedCommand cmd = Parser.parse("delete 10");
         boolean continueRunning = runner.run(cmd);
 
         assertEquals(1, applications.size());
@@ -160,11 +159,22 @@ class DeleterTest {
     public void deleteApplication_negativeIndex_doesNotModifyList() {
         applications.add(new Application("Google", "Software Engineer", "2026-03-01"));
 
-        ParsedCommand cmd = new ParsedCommand(-1);
+        ParsedCommand cmd = Parser.parse("delete -1");
         boolean continueRunning = runner.run(cmd);
 
         assertEquals(1, applications.size());
         assertEquals(true, continueRunning);
     }
 
+    @Test
+    public void deleteApplication_nonNumericIndex_shouldNotModifyList() {
+        applications.add(new Application("Google", "Software Engineer", "2026-03-01"));
+
+        ParsedCommand cmd = Parser.parse("delete abc");
+        boolean continueRunning = runner.run(cmd);
+
+        assertEquals(1, applications.size());
+        assertEquals(true, continueRunning);
+    }
 }
+
