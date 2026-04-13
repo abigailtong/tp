@@ -36,8 +36,6 @@ Implemented enhanced search behavior in the `CommandRunner` `SEARCH` branch.
 Key Features:
 - Multi-type search by `c/` (company), `p/` (position), and `s/` (status).
 - Case-insensitive partial matching by default.
-- `exact:` prefix support for exact matching.
-- `!` prefix support for inverse filtering (exclude keyword).
 - Search output is auto-sorted by date for consistent result presentation.
 
 Why this feature is complete:
@@ -48,7 +46,7 @@ Why this feature is complete:
 Implementation complexity:
 - Resolved duplicate `case SEARCH` routing conflict during integration.
 - Unified matching strategy across all prefixes so behavior is consistent.
-- Balanced flexibility (partial + exact + inverse) without breaking basic command syntax.
+- Kept command parsing strict to a single prefix per search for predictable behavior.
 
 #### 3. Filter Command (`filter`)
 Enhanced status filtering behavior in the `CommandRunner` `FILTER` branch.
@@ -108,11 +106,9 @@ Documented design intent:
 Documented enhanced search behavior:
 - prefix-based dimensions (`c/`, `p/`, `s/`)
 - case-insensitive partial matching
-- exact matching using `exact:`
-- inverse matching using `!`
 - date-ordered output for consistency
 
-Included normal and advanced usage scenarios.
+Included common usage scenarios and input validation behavior.
 
 ### Filter Feature Documentation
 Documented:
@@ -153,21 +149,17 @@ Sorts all applications by a selected field. Default order is ascending; add `rev
 - `sort status`
 
 ### Searching Applications: `search`
-Searches by company, position, or status with support for partial, exact, and inverse matching.
+Searches by company, position, or status with case-insensitive partial matching.
 
 **Format**
 - `search c/KEYWORD`
 - `search p/KEYWORD`
 - `search s/KEYWORD`
-- `search c/exact:COMPANY_NAME`
-- `search p/exact:POSITION_NAME`
-- `search s/!STATUS`
 
 **Examples**
 - `search c/google`
 - `search p/intern`
-- `search c/exact:Google`
-- `search s/!offer`
+- `search s/offer`
 
 ### Filtering Applications by Status: `filter`
 Filters application list by status keyword.
@@ -187,15 +179,15 @@ Filters application list by status keyword.
 2. Action: Run `sort company reverse`.
 3. Expected: Applications are displayed in descending alphabetical order by company.
 
-### Test Case: Exact search by company
-1. Precondition: One application with company exactly `Google` exists.
-2. Action: Run `search c/exact:Google`.
-3. Expected: Only exact `Google` entries are displayed.
+### Test Case: Search by company keyword
+1. Precondition: One application with company containing `Google` exists.
+2. Action: Run `search c/google`.
+3. Expected: Matching application(s) containing `google` are displayed.
 
-### Test Case: Inverse search by status
+### Test Case: Search by status keyword
 1. Precondition: Mixed statuses exist (e.g., `PENDING`, `OFFER`).
-2. Action: Run `search s/!offer`.
-3. Expected: All non-`offer` status applications are shown.
+2. Action: Run `search s/offer`.
+3. Expected: Applications with status containing `offer` are shown.
 
 ### Test Case: Filter validation
 1. Action: Run `filter s/` (empty status).
